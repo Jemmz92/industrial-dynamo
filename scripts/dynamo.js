@@ -3,7 +3,7 @@ Hooks.on("renderActorSheet5eCharacter", async (app, html, data) => {
     const actor = app.actor;
     if (!actor) return;
 
-    // Find the sidebar tab container
+    // Sidebar tabs container
     const sidebarTabs = html.find(".sheet-sidebar .tabs");
     if (!sidebarTabs.length) {
       console.warn("Integrated Dynamo | Sidebar tabs not found");
@@ -13,7 +13,7 @@ Hooks.on("renderActorSheet5eCharacter", async (app, html, data) => {
     // Avoid duplicate injection
     if (sidebarTabs.find(".item.dynamo-tab").length > 0) return;
 
-    // Add Dynamo tab to the sidebar
+    // Add Dynamo tab to sidebar
     const dynButton = $(`
       <a class="item dynamo-tab" data-tab="dynamo">
         <i class="fas fa-bolt"></i> Dynamo
@@ -21,16 +21,16 @@ Hooks.on("renderActorSheet5eCharacter", async (app, html, data) => {
     `);
     sidebarTabs.append(dynButton);
 
-    // Add the content container for the tab
+    // Add content container
     const tabContainer = $(`<div class="tab dynamo" data-tab="dynamo"></div>`);
     html.find(".sheet-body").append(tabContainer);
 
-    // Render template into the tab container
+    // Render template
     const templatePath = "modules/industrial-dynamo/templates/dynamo-tab.html";
     const rendered = await renderTemplate(templatePath, data);
     tabContainer.html(rendered);
 
-    // Make Dynamo tab active when clicked
+    // Activate tab on click
     html.on("click", ".dynamo-tab", (ev) => {
       ev.preventDefault();
       const tabName = $(ev.currentTarget).data("tab");
@@ -40,10 +40,10 @@ Hooks.on("renderActorSheet5eCharacter", async (app, html, data) => {
       $(ev.currentTarget).addClass("active");
     });
 
-    // Optional: make Dynamo active by default for testing
+    // Make Dynamo active by default for testing
     // dynButton.trigger("click");
 
-    // Recharge button inside Dynamo panel
+    // Recharge button
     html.on("click", ".dynamo-recharge", async (ev) => {
       ev.preventDefault();
       if (!actor) return;
