@@ -14,7 +14,6 @@
     "verified": "13"
   },
   "system": ["dnd5e"],
-  "esmodules": [],
   "scripts": [
     "scripts/dynamo.js"
   ],
@@ -22,8 +21,6 @@
     "styles/dynamo.css"
   ],
   "packs": [],
-  "languages": [],
-  "socket": false,
   "assets": [
     "icons/arc-pulse.png",
     "icons/emergency-reboot.png",
@@ -31,5 +28,7 @@
     "icons/talent-conductor.png",
     "icons/talent-stabilizer.png",
     "icons/voltaic-surge.png"
-  ]
+  ],
+  "languages": [],
+  "socket": false
 }
