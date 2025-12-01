@@ -3,17 +3,17 @@ Hooks.on("renderActorSheet5eCharacter", async (app, html, data) => {
     const actor = app.actor;
     if (!actor) return;
 
-    // --- 1) Sidebar tabs container
-    const sidebarNav = html.find(".sidebar-tabs");
+    // --- 1) Sidebar navigation container for right-hand tabs
+    const sidebarNav = html.find('.tabs[data-group="primary"]');
     if (!sidebarNav.length) {
-      console.warn("Integrated Dynamo | Sidebar navigation not found");
+      console.warn("Integrated Dynamo | Sidebar primary tabs container not found");
       return;
     }
 
-    // Avoid duplicate
+    // Prevent duplicate
     if (sidebarNav.find(".dynamo-tab").length > 0) return;
 
-    // --- 2) Add Dynamo button
+    // --- 2) Add Dynamo tab button
     const dynButton = $(`
       <a class="item dynamo-tab" data-tab="dynamo">
         <i class="fas fa-bolt"></i> Dynamo
@@ -21,7 +21,7 @@ Hooks.on("renderActorSheet5eCharacter", async (app, html, data) => {
     `);
     sidebarNav.append(dynButton);
 
-    // --- 3) Add tab content container
+    // --- 3) Add content container
     const tabContainer = $(`<div class="tab dynamo" data-tab="dynamo"></div>`);
     html.find(".sheet-body").append(tabContainer);
 
@@ -30,17 +30,23 @@ Hooks.on("renderActorSheet5eCharacter", async (app, html, data) => {
     const rendered = await renderTemplate(templatePath, data);
     tabContainer.html(rendered);
 
-    // --- 5) Make tab clickable
+    // --- 5) Tab click behavior
     dynButton.on("click", (ev) => {
       ev.preventDefault();
       const tabName = $(ev.currentTarget).data("tab");
+
+      // Deactivate all tabs in the sheet body
       html.find(".tab").removeClass("active");
+
+      // Activate the selected tab
       html.find(`.tab[data-tab="${tabName}"]`).addClass("active");
-      html.find(".sidebar-tabs .item").removeClass("active");
+
+      // Update sidebar nav active state
+      sidebarNav.find(".item").removeClass("active");
       $(ev.currentTarget).addClass("active");
     });
 
-    // Optional: activate Dynamo tab by default
+    // Optional: make Dynamo tab active on sheet open
     // dynButton.trigger("click");
 
     // --- 6) Recharge button
@@ -56,8 +62,7 @@ Hooks.on("renderActorSheet5eCharacter", async (app, html, data) => {
       }
     });
 
-    console.log("Integrated Dynamo | Dynamo tab added to sidebar");
-
+    console.log("Integrated Dynamo | Dynamo tab successfully added to sidebar");
   } catch (err) {
     console.error("Integrated Dynamo | Error injecting sidebar tab:", err);
   }
