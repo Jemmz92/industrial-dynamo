@@ -12,3 +12,12 @@
 .sheet-sidebar .tabs .item.dynamo-tab i {
   margin-right: 4px;
 }
+
+.dynamo-recharge {
+  margin-top: 5px;
+  padding: 4px 8px;
+  background: #ffaa00;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
