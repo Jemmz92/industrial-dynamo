@@ -1,4 +1,5 @@
 {
+  "id": "industrial-dynamo",
   "name": "industrial-dynamo",
   "title": "Integrated Dynamo",
   "description": "Adds a right-hand sidebar 'Dynamo' tab to character sheets with abilities, recharge button, and talent branches.",
@@ -11,25 +12,13 @@
     "minimum": "13",
     "verified": "13"
   },
-  "esmodules": [],
+  "minimumCoreVersion": "0.8.9",
+  "system": ["dnd5e"],
   "scripts": [
     "scripts/dynamo.js"
   ],
   "styles": [
     "styles/dynamo.css"
-  ],
-  "packs": [],
-  "languages": [],
-  "socket": false,
-  "system": ["dnd5e"],
-  "minimumCoreVersion": "0.8.9",
-  "readme": "README.md",
-  "licenses": [],
-  "authors": [
-    {
-      "name": "Jemmz92",
-      "url": "https://github.com/Jemmz92"
-    }
   ],
   "assets": [
     "icons/arc-pulse.png",
@@ -38,5 +27,8 @@
     "icons/talent-conductor.png",
     "icons/talent-stabilizer.png",
     "icons/voltaic-surge.png"
-  ]
+  ],
+  "packs": [],
+  "languages": [],
+  "socket": false
 }
