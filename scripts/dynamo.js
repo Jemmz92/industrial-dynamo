@@ -1,105 +1,94 @@
 /**
- * industrial-dynamo: robust tab injector for FoundryVTT v13 + dnd5e
- * Overwrites/extends the Actor sheet, injects a Dynamo tab,
- * shows charges, and wires a Recharge button.
+ * Debug-ready Dynamo tab injector
+ * Logs every step to help diagnose why the tab may not appear
  */
 
 Hooks.once("init", () => {
-  console.log("Integrated Dynamo | init");
+  console.log("Integrated Dynamo | init hook fired");
 });
 
 Hooks.on("renderActorSheet5eCharacter", async (app, html, data) => {
   try {
-    // Safety: only run for actors (not items, tokens, etc.)
-    if (!app?.actor) return;
+    if (!app?.actor) {
+      console.warn("Integrated Dynamo | No actor found");
+      return;
+    }
 
-    // Avoid duplicate injection
-    if (html.find(".dynamo-nav-item").length > 0) return;
+    console.log("Integrated Dynamo | Rendering sheet for", app.actor.name);
 
-    // Logging to help debug
-    console.log("Integrated Dynamo | injecting tab for", app.actor.name);
+    // Prevent duplicate injection
+    if (html.find(".dynamo-nav-item").length > 0) {
+      console.log("Integrated Dynamo | Dynamo tab already injected");
+      return;
+    }
 
-    // --- 1) Add navigation button (sheet header / left nav)
-    // Foundry has variations; try common selectors
+    // --- Add navigation button
     const nav = html.find(".sheet-navigation");
     if (nav.length === 0) {
-      // fallback to older selector
-      console.warn("Integrated Dynamo | .sheet-navigation not found - aborting injection");
+      console.error("Integrated Dynamo | .sheet-navigation not found!");
       return;
     }
+    console.log("Integrated Dynamo | Navigation container found");
 
     const navButton = $(
-      `<a class="item dynamo-nav-item" data-tab="dynamo" title="Integrated Dynamo"><i class="fas fa-bolt"></i> Dynamo</a>`
+      `<a class="item dynamo-nav-item" data-tab="dynamo"><i class="fas fa-bolt"></i> Dynamo</a>`
     );
     nav.append(navButton);
+    console.log("Integrated Dynamo | Nav button appended");
 
-    // --- 2) Add tab container (sheet body)
+    // --- Add tab container
     const body = html.find(".sheet-body");
     if (body.length === 0) {
-      console.warn("Integrated Dynamo | .sheet-body not found - aborting injection");
+      console.error("Integrated Dynamo | .sheet-body not found!");
       return;
     }
+    console.log("Integrated Dynamo | Sheet body found");
 
-    // Create a placeholder tab. The data-tab attribute must match nav button.
     const tabContainer = $(`<div class="tab dynamo" data-tab="dynamo"></div>`);
     body.append(tabContainer);
+    console.log("Integrated Dynamo | Tab container appended");
 
-    // Render the template into the tab (use same data object the sheet provided)
+    // --- Render template
     const templatePath = "modules/industrial-dynamo/templates/dynamo-tab.html";
     const rendered = await renderTemplate(templatePath, data);
     tabContainer.html(rendered);
+    console.log(`Integrated Dynamo | Template rendered from ${templatePath}`);
 
-    // --- 3) Wire listeners for controls *inside this sheet instance*.
-    // Note: use `html` which is the jQuery root for this sheet only.
-    // Recharge button: update actor resource primary (fallback to flags if missing)
+    // --- Recharge button
     html.on("click", ".dynamo-recharge", async (ev) => {
       ev.preventDefault();
       const actor = app.actor;
-      if (!actor) return;
-
-      // Prefer system.resources.primary, fallback to an actor flag
       const resources = actor.system?.resources;
       if (resources && resources.primary) {
-        const max = Number(resources.primary.max ?? resources.primary.max ?? 0);
-        if (!Number.isFinite(max) || max <= 0) {
-          ui.notifications.warn("Dynamo: primary resource max not configured on this character.");
-          return;
+        const max = Number(resources.primary.max ?? 0);
+        if (max > 0) {
+          await actor.update({ "system.resources.primary.value": max });
+          ui.notifications.info("Dynamo charges recharged!");
+          console.log("Integrated Dynamo | Charges recharged to max");
+        } else {
+          console.warn("Integrated Dynamo | Primary resource max not set");
         }
-        await actor.update({ "system.resources.primary.value": max });
-        ui.notifications.info("Integrated Dynamo: Charges recharged to max.");
-        return;
+      } else {
+        console.warn("Integrated Dynamo | No primary resource found for actor");
       }
-
-      // Fallback: store under actor.flags.industrialDynamo.charges
-      const flagPath = "flags.industrialDynamo.charges";
-      const flagMaxPath = "flags.industrialDynamo.max";
-      const maxFlag = actor.getFlag("industrialDynamo", "max") ?? actor.getFlag("industrialDynamo", "max") ?? 0;
-      if (maxFlag && Number.isFinite(Number(maxFlag))) {
-        await actor.setFlag("industrialDynamo", "charges", Number(maxFlag));
-        ui.notifications.info("Integrated Dynamo: Charges recharged (flag fallback).");
-        return;
-      }
-
-      ui.notifications.error("Integrated Dynamo: No resource or flag configured to store charges.");
     });
 
-    // Activation: when user clicks the nav button, switch tabs (works with Foundry's tab logic)
+    // --- Activate tab on click
     html.on("click", ".dynamo-nav-item", (ev) => {
       ev.preventDefault();
       const tabName = $(ev.currentTarget).data("tab");
-      // Hide sibling tabs and show ours (use foundry's tab switching if available)
       html.find(".tab").removeClass("active");
       html.find(`.tab[data-tab="${tabName}"]`).addClass("active");
-      // Update nav active class
       html.find(".sheet-navigation .item").removeClass("active");
       $(ev.currentTarget).addClass("active");
+      console.log(`Integrated Dynamo | Tab "${tabName}" activated`);
     });
 
-    // Make sure the sheet's default active tab is not unexpectedly empty.
-    // If you want Dynamo to be default: uncomment next line:
-    // html.find('.dynamo-nav-item').trigger('click');
+    // --- Debug: log what was injected
+    console.log("Integrated Dynamo | nav buttons:", html.find(".dynamo-nav-item").length);
+    console.log("Integrated Dynamo | tab containers:", html.find(".tab.dynamo").length);
 
   } catch (err) {
-    console.error("Integrated Dynamo | renderActorSheet5eCharacter error:", err);
+    console.error("Integrated Dynamo | Error during sheet rendering:", err);
   }
 });
