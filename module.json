@@ -2,7 +2,7 @@
   "id": "industrial-dynamo",
   "title": "Integrated Dynamo",
   "name": "industrial-dynamo",
-  "description": "Adds a right-hand sidebar 'Dynamo' tab to character sheets with abilities, recharge button, and talent branches.",
+  "description": "Adds a Dynamo panel inside the Special Traits tab with abilities, recharge button, and talent branches.",
   "version": "1.0.0",
   "author": "Jemmz92",
   "url": "https://github.com/Jemmz92/industrial-dynamo",
