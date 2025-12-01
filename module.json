@@ -1,0 +1,26 @@
+{
+  "id": "industrial-dynamo",
+  "title": "Integrated Dynamo",
+  "description": "Adds a new Special Trait tab for the Integrated Dynamo system.",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "authors": [{
+    "name": "Jemmz92",
+    "url": "https://github.com/Jemmz92"
+  }],
+  "scripts": [
+    "scripts/dynamo.js"
+  ],
+  "styles": [
+    "styles/dynamo.css"
+  ],
+  "esmodules": [],
+  "packs": [],
+  "languages": [],
+  "url": "https://github.com/Jemmz92/industrial-dynamo",
+  "manifest": "https://raw.githubusercontent.com/Jemmz92/industrial-dynamo/main/module.json",
+  "download": "https://github.com/Jemmz92/industrial-dynamo/archive/refs/heads/main.zip"
+}

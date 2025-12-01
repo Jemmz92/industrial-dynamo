@@ -1,0 +1,25 @@
+.dynamo-container {
+    padding: 10px;
+}
+
+.dynamo-charges {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.dynamo-charges button {
+    padding: 3px 10px;
+    background: #ffaa00;
+    border: 1px solid #000;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.dynamo-charges button:hover {
+    background: #ffcc33;
+}
+
+.dynamo-content ul {
+    line-height: 1.4em;
+}
