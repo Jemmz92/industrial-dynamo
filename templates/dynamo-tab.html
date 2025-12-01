@@ -1,15 +1,21 @@
-<div class="dynamo-container">
-    <h2><i class="fas fa-bolt"></i> Integrated Dynamo</h2>
+<div class="dynamo-content">
+  <div class="dynamo-charges">
+    <label>Charges:</label>
+    <span>{{actor.system.resources.primary.value}} / {{actor.system.resources.primary.max}}</span>
+    <button class="dynamo-recharge">Recharge</button>
+  </div>
 
-    <div class="dynamo-charges">
-        <label>Charges:</label>
-        <span>{{actor.system.resources.primary.value}} / {{actor.system.resources.primary.max}}</span>
-        <button class="dynamo-recharge">Recharge</button>
-    </div>
+  <h4>⚡ Dynamo Abilities</h4>
+  <ul>
+    <li><img src="modules/industrial-dynamo/icons/voltaic-surge.png" class="dynamo-icon"> Voltaic Surge (1 Charge)</li>
+    <li><img src="modules/industrial-dynamo/icons/arc-pulse.png" class="dynamo-icon"> Arc Pulse (2 Charges)</li>
+    <li><img src="modules/industrial-dynamo/icons/emergency-reboot.png" class="dynamo-icon"> Emergency Reboot (3 Charges)</li>
+  </ul>
 
-    <hr>
-
-    <div class="dynamo-content">
-        {{> "modules/industrial-dynamo/templates/dynamo-sheet-partial.html"}}
-    </div>
+  <h4>Talent Branches</h4>
+  <ul>
+    <li><img src="modules/industrial-dynamo/icons/talent-capacitor.png" class="dynamo-icon"> Capacitor Path</li>
+    <li><img src="modules/industrial-dynamo/icons/talent-conductor.png" class="dynamo-icon"> Conductor Path</li>
+    <li><img src="modules/industrial-dynamo/icons/talent-stabilizer.png" class="dynamo-icon"> Stabilizer Path</li>
+  </ul>
 </div>
