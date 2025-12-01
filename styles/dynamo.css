@@ -1,25 +1,21 @@
-.dynamo-container {
-    padding: 10px;
+.dynamo-panel {
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background-color: #1a1a1a; /* or match your sheet style */
 }
 
-.dynamo-charges {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+.dynamo-panel h3 {
+  margin-top: 0;
+  font-size: 1.1em;
 }
 
-.dynamo-charges button {
-    padding: 3px 10px;
-    background: #ffaa00;
-    border: 1px solid #000;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.dynamo-charges button:hover {
-    background: #ffcc33;
-}
-
-.dynamo-content ul {
-    line-height: 1.4em;
+.dynamo-panel button.dynamo-recharge {
+  margin-top: 5px;
+  padding: 4px 8px;
+  background: #ffaa00;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
