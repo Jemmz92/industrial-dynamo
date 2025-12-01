@@ -1,21 +1,14 @@
+.dynamo-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
 .dynamo-panel {
-  margin-top: 10px;
-  padding: 8px;
-  border: 1px solid #666;
-  border-radius: 6px;
-  background-color: #1a1a1a; /* or match your sheet style */
+  padding: 10px;
 }
 
-.dynamo-panel h3 {
-  margin-top: 0;
-  font-size: 1.1em;
-}
-
-.dynamo-panel button.dynamo-recharge {
-  margin-top: 5px;
-  padding: 4px 8px;
-  background: #ffaa00;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.sheet-sidebar .tabs .item.dynamo-tab i {
+  margin-right: 4px;
 }
